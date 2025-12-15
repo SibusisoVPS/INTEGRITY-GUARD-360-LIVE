@@ -16,6 +16,7 @@ def home():
     .btn{background:#3b82f6;color:white;padding:12px 24px;border:none;border-radius:6px;cursor:pointer;margin:10px;font-size:16px;}
     .result{background:#10b981;padding:20px;margin:20px 0;border-radius:8px;}
     .gep-score{font-size:72px;font-weight:bold;margin:20px 0;}
+    .badge{background:#ef4444;color:white;padding:5px 10px;border-radius:4px;font-size:12px;}
     </style></head>
     <body>
     <div class="container">
@@ -53,7 +54,7 @@ def home():
                 <div class="gep-score" style="color:${color}">
                     ${d.german_excellence_percentage}%
                 </div>
-                <p>Country: ${d.country} • Classification: ${d.classification}</p>
+                <p>Country: ${d.country} • Priority: <span class="badge">${d.improvement_priority}</span></p>
                 <p>${d.timestamp}</p>
             </div>`;
     }
@@ -72,6 +73,7 @@ def assess():
             "status": "ACTIVE",
             "framework": "German Excellence Standard v1.0",
             "version": "1.0.0",
+            "message": "INTEGRITY-GUARD-360 German Excellence API",
             "endpoints": ["GET /api/assess", "POST /api/assess"]
         })
     
@@ -83,7 +85,12 @@ def assess():
         "country": data.get('country', 'GLOBAL'),
         "classification": classify_system(gep),
         "improvement_priority": "CRITICAL" if gep < 40 else "HIGH" if gep < 60 else "MEDIUM" if gep < 80 else "LOW",
-        "timestamp": datetime.datetime.now().isoformat()
+        "timestamp": datetime.datetime.now().isoformat(),
+        "recommendations": [
+            "Implement German transparency standards (VgV §23)",
+            "Establish professional verification registry",
+            "Create mathematical viability certification"
+        ]
     })
 
 def calculate_gep(country):
